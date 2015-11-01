@@ -51,3 +51,100 @@ table {
 input {
     display: block;
 }
+
+.main_wrapper {
+    width: 900px;
+    margin: auto;
+}
+
+h1 {
+    /*width: 400px;*/
+    text-align: center;
+    text-transform: uppercase;
+    color: red;
+}
+
+#recherche {
+    width: 250px;
+    float: left;
+    /*background-color: red;*/
+}
+#recherche ul li {
+    line-height: 2;
+}
+#genre, #titre, #distributeur {
+    width: 150px;
+    float: right;
+ }
+
+.submit {
+    margin: auto;
+}
+
+#resultats {
+    width: 600px;
+    float: right;
+}
+
+table {
+    margin: auto;
+}
+
+tr th {
+    width: 150px;
+    text-align: center;
+    font-weight: bold;
+}
+tr td {
+    border: 1px solid black;
+    text-align: center;
+}
+
+#content {
+    margin-top: 50px;
+}
+
+#liens {
+    height: 50px;
+}
+#precedent {
+    float: left;
+}
+#suivant {
+    float: right;
+}
+
+h2 {
+    text-align: center;
+    color: blue;
+    margin-top: 25px;
+}
+
+nav ul {
+    width: 350px;
+    margin: auto;
+
+}
+nav ul li {
+    display: inline;
+}
+
+#limit_history {
+    margin: auto;
+    width: 100px;
+}
+.historique table, .historique form{
+    display: inline-block;
+}
+
+.center {
+    text-align: center;
+}
+.center li {
+    width: 150px;
+    margin: auto;
+}
+
+select {
+    width: 150px;
+}
