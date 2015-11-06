@@ -19,31 +19,31 @@
                 <form action="membres.php" method="GET">
 
                     <?php
-                    if (empty($_GET["page"]))
+                    if (!isset($_GET["page"]) || $_GET["page"] < 1)
                     {
                         $_GET["page"] = 1;
                     }
-                    if (empty($_GET["limit"]))
+                    if (empty($_GET["limit"]) || $_GET["limit"] < 1)
                     {
                         $_GET["limit"] = 20;
                     }
-                    if (empty($_GET["nom"]))
+                    if (!isset($_GET["nom"]))
                     {
                         $_GET["nom"] = "";
                     }
-                    if (empty($_GET["prenom"]))
+                    if (!isset($_GET["prenom"]))
                     {
                         $_GET["prenom"] = "";
                     }
-                    if (empty($_GET["email"]))
+                    if (!isset($_GET["email"]))
                     {
                         $_GET["email"] = "";
                     }
-                    if (empty($_GET["cpostal"]))
+                    if (!isset($_GET["cpostal"]))
                     {
                         $_GET["cpostal"] = "";
                     }
-                    if (empty($_GET["ville"]))
+                    if (!isset($_GET["ville"]))
                     {
                         $_GET["ville"] = "";
                     }
@@ -95,28 +95,28 @@
                         <th>Gérer</th>
                     </tr>
                     <?php
-                    if (!empty($_GET["nom"]) || !empty($_GET["prenom"]) || !empty($_GET["email"]) || !empty($_GET["cpostal"]) || !empty($_GET["ville"]))
+                    if ($_GET["nom"] != "" || $_GET["prenom"] != "" || $_GET["email"] != "" || $_GET["cpostal"] != "" || $_GET["ville"] != "")
                     {
                         $where = [];
-                        if(!empty($_GET["nom"]))
+                        if($_GET["nom"] != "")
                         {
-                            array_push($where, "tfp.nom LIKE \"%" . $_GET["nom"] . "%\"");
+                            array_push($where, "tfp.nom LIKE \"%" . htmlspecialchars($_GET["nom"]) . "%\"");
                         }
-                        if(!empty($_GET["prenom"]))
+                        if($_GET["prenom"] != "")
                         {
-                            array_push($where, "tfp.prenom LIKE \"%" . $_GET["prenom"] . "%\"");
+                            array_push($where, "tfp.prenom LIKE \"%" . htmlspecialchars($_GET["prenom"]) . "%\"");
                         }
-                        if(!empty($_GET["email"]))
+                        if($_GET["email"] != "")
                         {
-                            array_push($where, "tfp.email LIKE \"%" . $_GET["email"] . "%\"");
+                            array_push($where, "tfp.email LIKE \"%" . htmlspecialchars($_GET["email"]) . "%\"");
                         }
-                        if(!empty($_GET["cpostal"]))
+                        if($_GET["cpostal"] != "")
                         {
-                            array_push($where, "tfp.cpostal = " . $_GET["cpostal"]);
+                            array_push($where, "tfp.cpostal = " . (int)htmlspecialchars($_GET["cpostal"]));
                         }
-                        if(!empty($_GET["ville"]))
+                        if($_GET["ville"] != "")
                         {
-                            array_push($where, "tfp.ville LIKE \"%" . $_GET["ville"] . "%\"");
+                            array_push($where, "tfp.ville LIKE \"%" . htmlspecialchars($_GET["ville"]) . "%\"");
                         }
                         $where =  "WHERE " . implode($where, " AND ");
                     }
@@ -146,14 +146,17 @@
 
                     while ($data = $querySelectMembres->fetch())
                     {
-                        echo "<tr><td>". $data["nom"] ."</td>";
-                        echo "<td>" . $data["prenom"]. "</td>";
-                        echo "<td>" . $data["email"]. "</td>";
-                        echo "<td>" . $data["cpostal"]. "</td>";
-                        echo "<td>" . $data["ville"]. "</td>";
-                        echo "<td>" . $data["pays"]. "</td>";
-
-                        echo "<td><a href=detailsMembre.php?id=" . $data["id_membre"] . ">Détails</a></td></tr>";
+                    ?>
+                        <tr>
+                            <td><?php echo $data["nom"]; ?></td>
+                            <td><?php echo $data["prenom"]; ?></td>
+                            <td><?php echo $data["email"]; ?></td>
+                            <td><?php echo $data["cpostal"]; ?></td>
+                            <td><?php echo $data["ville"]; ?></td>
+                            <td><?php echo $data["pays"]; ?></td>
+                            <td><a href=detailsMembre.php?id=<?php echo $data["id_membre"]; ?>>Détails</a></td>
+                        </tr>
+                    <?php
                     }
                     $querySelectMembres->closeCursor();
 

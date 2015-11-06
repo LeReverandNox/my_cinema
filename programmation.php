@@ -17,33 +17,57 @@
             <h2>Les séances programmées</h2>
 
             <form action="programmation.php" method="GET" class="center">
-                <label for="id_salle">Salle : </label>
-                <select name="id_salle" id="id_salle">
-                    <option value="">Toute</option>
-
-                    <?php
-
-                    if (!isset($_GET["id_salle"]))
-                    {
-                        $_GET["id_salle"] = "";
-                    }
-                    $queryListSalles = $database->query("SELECT * FROM tp_salle");
-
-                    while ($data = $queryListSalles->fetch())
-                    {
-                        ?>
-                        <option value="<?php echo $data["id_salle"]; ?>" <?php if($_GET["id_salle"] == $data["id_salle"]) { echo "selected"; } ?>>#<?php echo $data["numero_salle"] . " - " . $data["nom_salle"]; ?></option>
+            <ul>
+                <li>
+                    <label for="id_salle">Salle : </label>
+                    <select name="id_salle" id="id_salle">
+                        <option value="">Toute</option>
 
                         <?php
-                    }
-                    $queryListSalles->closeCursor();
-                    ?>
-                </select>
-                <label for="date">A partir du : </label>
-                <input type="date" name="date" id="date" />
-                <label for="heure">à</label>
-                <input type="time" name="heure" id="heure" />
-                <input type="submit" value="Voir" class="submit" />
+
+                        if (!isset($_GET["id_salle"]))
+                        {
+                            $_GET["id_salle"] = "";
+                        }
+                        if (!isset($_GET["page"]) || $_GET["page"] < 1)
+                        {
+                            $_GET["page"] = 1;
+                        }
+                        if (!isset($_GET["limit"]) || $_GET["limit"] < 1)
+                        {
+                            $_GET["limit"] = 10;
+                        }
+                        $start = ($_GET["page"] * $_GET["limit"]) - $_GET["limit"];
+
+                        $queryListSalles = $database->query("SELECT * FROM tp_salle");
+
+                        while ($data = $queryListSalles->fetch())
+                        {
+                            ?>
+                            <option value="<?php echo $data["id_salle"]; ?>" <?php if($_GET["id_salle"] == $data["id_salle"]) { echo "selected"; } ?>>#<?php echo $data["numero_salle"] . " - " . $data["nom_salle"]; ?></option>
+
+                            <?php
+                        }
+                        $queryListSalles->closeCursor();
+                        ?>
+                    </select>
+                </li>
+                <li>
+                    <label for="date">A partir du : </label>
+                    <input type="date" name="date" id="date" />
+                </li>
+                <li>
+                    <label for="heure">à</label>
+                    <input type="time" name="heure" id="heure" />
+                </li>
+                <li>
+                    <label for="limit">Films par page</label>
+                    <input type="number" name="limit" id="limit" value="<?php echo $_GET["limit"]; ?>" />
+                </li>
+                <li>
+                    <input type="submit" value="Voir" class="submit" />
+                </li>
+            </ul>
             </form>
 
             <table>
@@ -58,10 +82,10 @@
 
                 <?php
 
-                if (!empty($_GET["id_salle"]) || $_GET["id_salle"] === "0" || !empty($_GET["date"]) || !empty($_GET["heure"]))
+                if ($_GET["id_salle"] != "" || !empty($_GET["date"]) || !empty($_GET["heure"]))
                 {
                     $where = [];
-                    if(!empty($_GET["id_salle"]) || $_GET["id_salle"] === "0")
+                    if($_GET["id_salle"] != "")
                     {
                         array_push($where, "tpgp.id_salle = " . $_GET["id_salle"] . "");
                     }
@@ -88,12 +112,18 @@
                     LEFT JOIN tp_salle AS tps
                     ON tpgp.id_salle = tps.id_salle
                     $where
-                    ORDER BY debut DESC");
-                $queryListProg->execute(["id_salle" => $_GET["id_salle"]]);
+                    ORDER BY debut DESC
+                    LIMIT " . $start . ", " . $_GET["limit"] ."");
+
+                $queryListProg->execute();
 
                 if (empty($data = $queryListProg->fetch()))
                 {
-                    echo "<tr><td colspan=6>Aucune programmation pour cette salle</td></tr>";
+                    ?>
+                        <tr>
+                            <td colspan=6>Aucune programmation pour cette salle</td>
+                        </tr>
+                    <?php
                 }
                 else
                 {
@@ -105,18 +135,48 @@
                 {
                     $date = substr($data["debut"], 0, 10);
                     $heure = substr($data["debut"], 10, 6);
-
-                    echo "<tr><td>" . $data["titre"]. "</td>";
-                    echo "<td>" . $date . "</td>";
-                    echo "<td>" . $heure . "</td>";
-                    echo "<td>" . $data["salle"]. "</td>";
-                    echo "<td>" . $data["places"]. "</td>";
-                    echo "<td><a href=\"include/deprogFilm.php?id_salle=" . $data["id_salle"] . "&id_film=" . $data["id_film"] . "&debut=" . $data["debut"] . "\">Déprogrammer</a></td>";
-                    echo "</tr>";
+                ?>
+                    <tr>
+                        <td><?php echo $data["titre"] ;?></td>
+                        <td><?php echo $date ;?></td>
+                        <td><?php echo $heure ;?></td>
+                        <td><?php echo $data["salle"] ;?></td>
+                        <td><?php echo $data["places"] ;?></td>
+                        <td><a href="include/deprogFilm.php?id_salle=<?php echo $data["id_salle"]; ?>&id_film=<?php echo $data["id_film"]; ?>&debut=<?php echo $data["debut"]; ?>">Déprogrammer</a></td>
+                    </tr>
+                <?php
                 }
+
+                $queryCountProg = $database->prepare("SELECT  COUNT(tpf.titre) AS nb_films
+                    FROM tp_grille_programme AS tpgp
+                    LEFT JOIN tp_film AS tpf
+                    ON tpgp.id_film = tpf.id_film
+                    LEFT JOIN tp_salle AS tps
+                    ON tpgp.id_salle = tps.id_salle
+                    $where");
+                $queryCountProg->execute();
+                $nb_films = $queryCountProg->fetch();
+                $queryCountProg->closeCursor();
+
                 $queryListProg->closeCursor();
                 ?>
             </table>
+                <div id="liens">
+                <?php
+                if ($start > 0)
+                {
+                ?>
+                    <a href="programmation.php?id_salle=<?php echo $_GET["id_salle"]; ?>&date=<?php echo $_GET["date"]; ?>&heure=<?php echo $_GET["heure"]; ?>&limit=<?php echo $_GET["limit"]; ?>&page=<?php echo $_GET["page"] - 1;?>" id="precedent">Précédent</a>
+                <?php
+                }
+                if (($_GET["page"] * $_GET["limit"]) < $nb_films["nb_films"])
+                {
+                ?>
+                    <a href="programmation.php?id_salle=<?php echo $_GET["id_salle"]; ?>&date=<?php echo $_GET["date"]; ?>&heure=<?php echo $_GET["heure"]; ?>&limit=<?php echo $_GET["limit"]; ?>&page=<?php echo $_GET["page"] + 1;?>" id="suivant">Suivant</a>
+                <?php
+                }
+                ?>
+            </div>
         </div>
 
         <div class="prog">
@@ -149,7 +209,9 @@
                                 ORDER BY titre");
                             while ($data = $querySelectFilms->fetch())
                             {
-                                echo '<option value="'. $data["id_film"] . '">' . ucfirst($data["titre"]) . '</option>' . "\n";
+                            ?>
+                                <option value="<?php echo $data["id_film"]; ?>"><?php echo ucfirst($data["titre"]); ?></option>
+                            <?php
                             }
                             $querySelectFilms->closeCursor();
                             ?>

@@ -26,11 +26,14 @@
                 $querySelectAbonnement = $database->query("SELECT * FROM  tp_abonnement ORDER BY nom");
                 while ($data = $querySelectAbonnement->fetch())
                 {
-                    echo "<tr><td>" . $data["nom"] . "</td>";
-                    echo "<td>" . $data["prix"]. "</td>";
-                    echo "<td>" . $data["duree_abo"]. "</td>";
-                    echo "<td>" . $data["resum"]. "</td>";
-                    echo "</tr>";
+                ?>
+                    <tr>
+                        <td><?php echo $data["nom"]; ?></td>
+                        <td><?php echo $data["prix"]; ?>€</td>
+                        <td><?php echo $data["duree_abo"]; ?> jours</td>
+                        <td><?php echo $data["resum"]; ?></td>
+                    </tr>
+                <?php
                 }
          ?>
     </table>
@@ -45,9 +48,12 @@
                 $querySelectReductions = $database->query("SELECT * FROM  tp_reduction ORDER BY nom");
                 while ($data = $querySelectReductions->fetch())
                 {
-                    echo "<tr><td>" . $data["nom"] . "</td>";
-                    echo "<td>-" . $data["pourcentage_reduc"]. "%</td>";
-                    echo "</tr>";
+                ?>
+                    <tr>
+                        <td><?php echo $data["nom"]?></td>
+                        <td><?php echo $data["pourcentage_reduc"]?>%</td>
+                    </tr>
+                <?php
                 }
          ?>
     </table>

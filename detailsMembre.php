@@ -23,11 +23,11 @@ if (empty($_GET["id"]))
         <div class="historique">
             <div class="center">
                 <?php
-                if (empty($_GET["page"]))
+                if (!isset($_GET["page"]) || $_GET["page"] <= 0)
                 {
                     $_GET["page"] = 1;
                 }
-                if (empty($_GET["limit"]))
+                if (!isset($_GET["limit"]) || $_GET["limit"] <= 0)
                 {
                     $_GET["limit"] = 10;
                 }
@@ -55,12 +55,15 @@ if (empty($_GET["id"]))
                     <?php
                     while ($data = $queryDisplayHistory->fetch())
                     {
-                        echo "<tr><td>" . $data["titre"] . "</td>";
-                        echo "<td>" . $data["date"] . "</td>";
-                        echo "<td>" . $data["avis"] . " <a href=\"include/modifierAvis.php?id=" . $_GET["id"]. "&id_film=" . $data["id_film"] . "\">Editer</a></td>";
-                        echo "<td><a href=\"include/supprimerHistorique.php?id=" . $_GET["id"]. "&id_film=" . $data["id_film"] . "\">Supprimer</a></td></tr>";
+                    ?>
+                        <tr>
+                            <td><?php echo $data["titre"]; ?></td>
+                            <td><?php echo $data["date"]; ?></td>
+                            <td><?php echo $data["avis"]; ?><a href="include/modifierAvis.php?id=<?php echo $_GET["id"]; ?>&id_film=<?php echo $data["id_film"]; ?>">Editer</a></td>
+                            <td><a href="include/supprimerHistorique.php?id=<?php echo $_GET["id"]; ?>&id_film=<?php echo $data["id_film"]; ?>">Supprimer</a></td>
+                        </tr>
+                    <?php
                     }
-
 
                     $queryCountHistory = $database->prepare("SELECT COUNT(tpf.titre) AS nb_films
                         FROM tp_historique_membre AS tphm
@@ -89,12 +92,15 @@ if (empty($_GET["id"]))
                     <?php
                     if ($start > 0)
                     {
-                        echo "<a href=\"detailsMembre.php?id=". $_GET["id"] . "&limit=" . $_GET["limit"]. "&page=" . ($_GET["page"] - 1) . "\" id=\"precedent\">Précédent</a>";
-
+                    ?>
+                        <a href="detailsMembre.php?id=<?php echo $_GET["id"]; ?>&limit=<?php echo $_GET["limit"]; ?>&page=<?php echo $_GET["page"] - 1; ?>" id="precedent">Précédent</a>
+                    <?php
                     }
                     if (($_GET["page"] * $_GET["limit"]) < $nb_films["nb_films"])
                     {
-                        echo "<a href=\"detailsMembre.php?id=" . $_GET["id"] . "&limit=" . $_GET["limit"]. "&page=" . ($_GET["page"] + 1) . "\" id=\"suivant\">Suivant</a>";
+                    ?>
+                        <a href="detailsMembre.php?id=<?php echo $_GET["id"]; ?>&limit=<?php echo $_GET["limit"]; ?>&page=<?php echo $_GET["page"] + 1; ?>" id="suivant">Suivant</a>
+                    <?php
                     }
                     $queryCountHistory->closeCursor();
                     ?>
@@ -113,7 +119,9 @@ if (empty($_GET["id"]))
                                     ORDER BY titre");
                                 while ($data = $querySelectFilms->fetch())
                                 {
-                                    echo '<option value="'. $data["id_film"] . '">' . ucfirst($data["titre"]) . '</option>' . "\n";
+                                ?>
+                                    <option value="<?php echo $data["id_film"]; ?>"><?php echo ucfirst($data["titre"]); ?></option>
+                                <?php
                                 }
                                 $querySelectFilms->closeCursor();
                                 ?>
@@ -192,7 +200,7 @@ if (empty($_GET["id"]))
                     </li>
                     <li>
                         <label for="cpostal">Code Postal : </label>
-                        <input type="text" name="cpostal" id="cpostal" value="<?php echo $data["cpostal"]; ?>" />
+                        <input type="text" pattern="[0-9]{5}" name="cpostal" id="cpostal" value="<?php echo $data["cpostal"]; ?>" />
                     </li>
                     <li>
                         <label for="ville">Ville : </label>
@@ -203,8 +211,8 @@ if (empty($_GET["id"]))
                         <input type="text" name="pays" id="pays" value="<?php echo $data["pays"]; ?>" />
                     </li>
                     <li>
-                        <input type="hidden" name="id" value="<?php echo $_GET["id"]?>" />
-                        <input type="hidden" name="id_perso" value="<?php echo $data["id_perso"]?>" />
+                        <input type="hidden" name="id" value="<?php echo $_GET["id"]; ?>" />
+                        <input type="hidden" name="id_perso" value="<?php echo $data["id_perso"]; ?>" />
                         <input type="submit" class="submit" value="Envoyer" />
                     </li>
                 </ul>

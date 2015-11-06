@@ -18,23 +18,23 @@
                 <form action="films.php" method="GET">
 
                     <?php
-                    if (empty($_GET["page"]))
+                    if (!isset($_GET["page"]) || $_GET["page"] < 1)
                     {
                         $_GET["page"] = 1;
                     }
-                    if (empty($_GET["limit"]))
+                    if (!isset($_GET["limit"]) || $_GET["limit"]  < 1)
                     {
                         $_GET["limit"] = 20;
                     }
-                    if (empty($_GET["titre"]))
+                    if (!isset($_GET["titre"]))
                     {
                         $_GET["titre"] = "";
                     }
-                    if (empty($_GET["genre"]))
+                    if (!isset($_GET["genre"]))
                     {
                         $_GET["genre"] = "";
                     }
-                    if (empty($_GET["distributeur"]))
+                    if (!isset($_GET["distributeur"]))
                     {
                         $_GET["distributeur"] = "";
                     }
@@ -100,20 +100,20 @@
                         <th>Détails</th>
                     </tr>
                     <?php
-                    if (!empty($_GET["titre"]) || !empty($_GET["genre"]) || !empty($_GET["distributeur"]))
+                    if ($_GET["titre"] != "" || $_GET["genre"] != "" || $_GET["distributeur"] != "")
                     {
                         $where = [];
-                        if(!empty($_GET["titre"]))
+                        if($_GET["titre"] != "")
                         {
-                            array_push($where, "tp_film.titre LIKE \"%" . $_GET["titre"] . "%\"");
+                            array_push($where, "tp_film.titre LIKE \"%" . htmlspecialchars($_GET["titre"]) . "%\"");
                         }
-                        if(!empty($_GET["genre"]))
+                        if($_GET["genre"] != "")
                         {
-                            array_push($where, "tp_genre.id_genre = " . $_GET["genre"]);
+                            array_push($where, "tp_genre.id_genre = " . (int)htmlspecialchars($_GET["genre"]));
                         }
-                        if(!empty($_GET["distributeur"]))
+                        if($_GET["distributeur"] != "")
                         {
-                            array_push($where, "tp_distrib.id_distrib = " . $_GET["distributeur"]);
+                            array_push($where, "tp_distrib.id_distrib = " . (int)htmlspecialchars($_GET["distributeur"]));
                         }
                         $where =  "WHERE " . implode($where, " AND ");
                     }
@@ -130,7 +130,7 @@
                         ON tp_film.id_distrib = tp_distrib.id_distrib
                         $where
                         ORDER BY tp_film.titre
-                        LIMIT " . $start . ", " . $_GET["limit"] ."");
+                        LIMIT " . abs($start) . ", " . abs($_GET["limit"]) ."");
                     $querySelectFilms->execute();
 
                     if (empty($data = $querySelectFilms->fetch()))
@@ -145,32 +145,50 @@
 
                     while ($data = $querySelectFilms->fetch())
                     {
-                        echo "<tr><td>". $data["titre"] ."</td>";
-                        if (!empty($data["genre"]))
-                        {
-                            echo "<td>" . $data["genre"]. "</td>";
-                        }
-                        else
-                        {
-                            echo "<td>inconnu</td>";
-                        }
-                        if (!empty($data["distrib"]))
-                        {
-                            echo "<td>" . $data["distrib"]. "</td>";
-                        }
-                        else
-                        {
-                            echo "<td>inconnu</td>";
-                        }
-                        if (!empty($data["annee_prod"]))
-                        {
-                            echo "<td>" . $data["annee_prod"]. "</td>";
-                        }
-                        else
-                        {
-                            echo "<td>inconnu</td>";
-                        }
-                        echo "<td><a href=detailsFilm.php?id=" . $data["id_film"] . ">Détails</a></td></tr>";
+                    ?>
+                        <tr>
+                            <td><?php echo $data["titre"]; ?></td>
+                            <?php
+                             if (!empty($data["genre"]))
+                            {
+                            ?>
+                                <td><?php echo $data["genre"]; ?></td>
+                            <?php
+                            }
+                            else
+                            {
+                            ?>
+                                <td>inconnu</td>
+                            <?php
+                            }
+                            if (!empty($data["distrib"]))
+                            {
+                            ?>
+                                <td><?php  echo $data["distrib"]; ?></td>
+                            <?php
+                            }
+                            else
+                            {
+                            ?>
+                                <td>inconnu</td>
+                            <?php
+                            }
+                            if (!empty($data["annee_prod"]))
+                            {
+                            ?>
+                                <td><?php echo $data["annee_prod"] ;?></td>
+                            <?php
+                            }
+                            else
+                            {
+                            ?>
+                                <td>inconnu</td>
+                            <?php
+                            }
+                            ?>
+                            <td><a href=detailsFilm.php?id="<?php echo $data["id_film"] ;?>">Détails</a></td>
+                        </tr>
+                    <?php
                     }
                     $querySelectFilms->closeCursor();
 

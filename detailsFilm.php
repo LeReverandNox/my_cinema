@@ -1,6 +1,6 @@
 <?php
 include "include/database.php";
-if (empty($_GET["id"]))
+if (!isset($_GET["id"]) || $_GET["id"] == "")
 {
         header('Location: films.php');
 }
@@ -27,7 +27,7 @@ if (empty($_GET["id"]))
                 ON tp_film.id_genre = tp_genre.id_genre
                 LEFT JOIN tp_distrib
                 ON tp_film.id_distrib = tp_distrib.id_distrib
-                WHERE tp_film.id_film = " . $_GET["id"] . "");
+                WHERE tp_film.id_film = " . (int)$_GET["id"] . "");
             $queryDetailsFilm->execute();
 
             $data = $queryDetailsFilm->fetch();
@@ -40,7 +40,7 @@ if (empty($_GET["id"]))
                 }
                 else
                 {
-                    echo "P0WN3D";
+                    echo "Film introuvable";
                 } ?>
             </h2>
             <p>Genre :
