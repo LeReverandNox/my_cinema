@@ -35,6 +35,7 @@
                     </tr>
                 <?php
                 }
+                $querySelectAbonnement->closeCursor();
          ?>
     </table>
 
@@ -55,6 +56,7 @@
                     </tr>
                 <?php
                 }
+                $querySelectReductions->closeCursor();
          ?>
     </table>
     </div>
