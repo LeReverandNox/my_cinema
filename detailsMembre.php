@@ -59,8 +59,8 @@ if (empty($_GET["id"]))
                         <tr>
                             <td><?php echo $data["titre"]; ?></td>
                             <td><?php echo $data["date"]; ?></td>
-                            <td><?php echo $data["avis"]; ?><a href="include/modifierAvis.php?id=<?php echo $_GET["id"]; ?>&id_film=<?php echo $data["id_film"]; ?>">Editer</a></td>
-                            <td><a href="include/supprimerHistorique.php?id=<?php echo $_GET["id"]; ?>&id_film=<?php echo $data["id_film"]; ?>">Supprimer</a></td>
+                            <td><?php echo $data["avis"]; ?><a href="include/modifierAvis.php?id=<?php echo $_GET["id"]; ?>&amp;id_film=<?php echo $data["id_film"]; ?>">Editer</a></td>
+                            <td><a href="include/supprimerHistorique.php?id=<?php echo $_GET["id"]; ?>&amp;id_film=<?php echo $data["id_film"]; ?>">Supprimer</a></td>
                         </tr>
                     <?php
                     }
@@ -93,13 +93,13 @@ if (empty($_GET["id"]))
                     if ($start > 0)
                     {
                     ?>
-                        <a href="detailsMembre.php?id=<?php echo $_GET["id"]; ?>&limit=<?php echo $_GET["limit"]; ?>&page=<?php echo $_GET["page"] - 1; ?>" id="precedent">Précédent</a>
+                        <a href="detailsMembre.php?id=<?php echo $_GET["id"]; ?>&amp;limit=<?php echo $_GET["limit"]; ?>&amp;page=<?php echo $_GET["page"] - 1; ?>" id="precedent">Précédent</a>
                     <?php
                     }
                     if (($_GET["page"] * $_GET["limit"]) < $nb_films["nb_films"])
                     {
                     ?>
-                        <a href="detailsMembre.php?id=<?php echo $_GET["id"]; ?>&limit=<?php echo $_GET["limit"]; ?>&page=<?php echo $_GET["page"] + 1; ?>" id="suivant">Suivant</a>
+                        <a href="detailsMembre.php?id=<?php echo $_GET["id"]; ?>&amp;limit=<?php echo $_GET["limit"]; ?>&amp;page=<?php echo $_GET["page"] + 1; ?>" id="suivant">Suivant</a>
                     <?php
                     }
                     $queryCountHistory->closeCursor();
@@ -184,7 +184,7 @@ if (empty($_GET["id"]))
                 <ul>
                     <li>
                         <label for="nom">Nom :</label>
-                        <input type="text" name="nom" id="name" value="<?php echo $data["nom"]; ?>" />
+                        <input type="text" name="nom" id="nom" value="<?php echo $data["nom"]; ?>" />
                     </li>
                     <li>
                         <label for="prenom">Prénom : </label>

@@ -135,6 +135,7 @@
                 {
                     $date = substr($data["debut"], 0, 10);
                     $heure = substr($data["debut"], 10, 6);
+                    $datecomplete = str_replace(" ", "%20", $data["debut"]);
                 ?>
                     <tr>
                         <td><?php echo $data["titre"] ;?></td>
@@ -142,7 +143,7 @@
                         <td><?php echo $heure ;?></td>
                         <td><?php echo $data["salle"] ;?></td>
                         <td><?php echo $data["places"] ;?></td>
-                        <td><a href="include/deprogFilm.php?id_salle=<?php echo $data["id_salle"]; ?>&id_film=<?php echo $data["id_film"]; ?>&debut=<?php echo $data["debut"]; ?>">Déprogrammer</a></td>
+                        <td><a href="include/deprogFilm.php?id_salle=<?php echo $data["id_salle"]; ?>&amp;id_film=<?php echo $data["id_film"]; ?>&amp;debut=<?php echo $datecomplete; ?>">Déprogrammer</a></td>
                     </tr>
                 <?php
                 }
@@ -166,13 +167,13 @@
                 if ($start > 0)
                 {
                 ?>
-                    <a href="programmation.php?id_salle=<?php echo $_GET["id_salle"]; ?>&date=<?php echo $_GET["date"]; ?>&heure=<?php echo $_GET["heure"]; ?>&limit=<?php echo $_GET["limit"]; ?>&page=<?php echo $_GET["page"] - 1;?>" id="precedent">Précédent</a>
+                    <a href="programmation.php?id_salle=<?php echo $_GET["id_salle"]; ?>&amp;date=<?php echo $_GET["date"]; ?>&amp;heure=<?php echo $_GET["heure"]; ?>&amp;limit=<?php echo $_GET["limit"]; ?>&amp;page=<?php echo $_GET["page"] - 1;?>" id="precedent">Précédent</a>
                 <?php
                 }
                 if (($_GET["page"] * $_GET["limit"]) < $nb_films["nb_films"])
                 {
                 ?>
-                    <a href="programmation.php?id_salle=<?php echo $_GET["id_salle"]; ?>&date=<?php echo $_GET["date"]; ?>&heure=<?php echo $_GET["heure"]; ?>&limit=<?php echo $_GET["limit"]; ?>&page=<?php echo $_GET["page"] + 1;?>" id="suivant">Suivant</a>
+                    <a href="programmation.php?id_salle=<?php echo $_GET["id_salle"]; ?>&amp;date=<?php echo $_GET["date"]; ?>&amp;heure=<?php echo $_GET["heure"]; ?>&amp;limit=<?php echo $_GET["limit"]; ?>&amp;page=<?php echo $_GET["page"] + 1;?>" id="suivant">Suivant</a>
                 <?php
                 }
                 ?>
@@ -184,8 +185,8 @@
             <form action="include/progFilm.php" method="POST" class="center">
                 <ul>
                     <li>
-                        <label for="id_salle">Salle : </label>
-                        <select name="id_salle" id="id_salle">
+                        <label for="id_salleProg">Salle : </label>
+                        <select name="id_salle" id="id_salleProg">
                             <?php
                             $queryListSalles = $database->query("SELECT * FROM tp_salle");
 
@@ -218,12 +219,12 @@
                         </select>
                     </li>
                     <li>
-                        <label for="date">Jour : </label>
-                        <input type="date" name="date" id="date" required />
+                        <label for="dateProg">Jour : </label>
+                        <input type="date" name="date" id="dateProg" required />
                     </li>
                     <li>
-                        <label for="heure">Heure : </label>
-                        <input type="time" name="heure" id="heure" required />
+                        <label for="heureProg">Heure : </label>
+                        <input type="time" name="heure" id="heureProg" required />
                     </li>
                     <li>
                         <input type="submit" value="Ajouter" class="submit" />

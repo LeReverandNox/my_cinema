@@ -44,11 +44,11 @@
 
                     <ul>
                         <li>
-                            <label for "titre">Titre :</label>
+                            <label for="titre">Titre :</label>
                             <input type="text" name="titre" id="titre" value="<?php echo $_GET["titre"]; ?>"/>
                         </li>
                         <li>
-                            <label for "genre">Genre :</label>
+                            <label for="genre">Genre :</label>
                             <select name="genre" id="genre">
                                 <option value="">Tout</option>
                                 <?php
@@ -64,7 +64,7 @@
                             </select>
                         </li>
                         <li>
-                            <label for "distributeur">Distributeur :</label>
+                            <label for="distributeur">Distributeur :</label>
                             <select name="distributeur" id="distributeur">
                                 <option value="">Tout</option>
                                 <?php
@@ -186,7 +186,7 @@
                             <?php
                             }
                             ?>
-                            <td><a href=detailsFilm.php?id="<?php echo $data["id_film"] ;?>">Détails</a></td>
+                            <td><a href="detailsFilm.php?id=<?php echo $data["id_film"] ;?>">Détails</a></td>
                         </tr>
                     <?php
                     }
@@ -203,23 +203,23 @@
                     $nb_films =$queryCountFilms->fetch();
                     $queryCountFilms->closeCursor();
                     ?>
+                </table>
                     <div id="liens">
                         <?php
                         if ($start > 0)
                         {
                             ?>
-                            <a href="films.php?titre=<?php echo $_GET["titre"]; ?>&genre=<?php echo $_GET["genre"]; ?>&distributeur=<?php echo $_GET["distributeur"]; ?>&limit=<?php echo $_GET["limit"]; ?>&page=<?php echo $_GET["page"] - 1; ?>" id="precedent">Précédent</a>
+                            <a href="films.php?titre=<?php echo $_GET["titre"]; ?>&amp;genre=<?php echo $_GET["genre"]; ?>&amp;distributeur=<?php echo $_GET["distributeur"]; ?>&amp;limit=<?php echo $_GET["limit"]; ?>&amp;page=<?php echo $_GET["page"] - 1; ?>" id="precedent">Précédent</a>
                             <?php
                         }
                         if (($_GET["page"] * $_GET["limit"]) < $nb_films["nb_films"])
                         {
                             ?>
-                            <a href="films.php?titre=<?php echo $_GET["titre"]; ?>&genre=<?php echo $_GET["genre"]; ?>&distributeur=<?php echo $_GET["distributeur"]; ?>&limit=<?php echo $_GET["limit"]; ?>&page=<?php echo $_GET["page"] + 1; ?>" id="suivant">Suivant</a>
+                            <a href="films.php?titre=<?php echo $_GET["titre"]; ?>&amp;genre=<?php echo $_GET["genre"]; ?>&amp;distributeur=<?php echo $_GET["distributeur"]; ?>&amp;limit=<?php echo $_GET["limit"]; ?>&amp;page=<?php echo $_GET["page"] + 1; ?>" id="suivant">Suivant</a>
                             <?php
                         }
                         ?>
                     </div>
-                </table>
             </div>
         </div>
     </div>

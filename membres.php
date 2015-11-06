@@ -53,23 +53,23 @@
 
                     <ul>
                         <li>
-                            <label for "nom">Nom :</label>
+                            <label for="nom">Nom :</label>
                             <input type="text" name="nom" id="nom" value="<?php echo $_GET["nom"]; ?>" />
                         </li>
                         <li>
-                            <label for "prenom">Prenom :</label>
+                            <label for="prenom">Prenom :</label>
                             <input type="text" name="prenom" id="prenom" value="<?php echo $_GET["prenom"]; ?>"/>
                         </li>
                         <li>
-                            <label for "email">Email :</label>
+                            <label for="email">Email :</label>
                             <input type="email" name="email" id="email" value="<?php echo $_GET["email"]; ?>"/>
                         </li>
                         <li>
-                            <label for "cpostal">Code Postal :</label>
+                            <label for="cpostal">Code Postal :</label>
                             <input type="text" name="cpostal" id="cpostal" value="<?php echo $_GET["cpostal"]; ?>"/>
                         </li>
                         <li>
-                            <label for "ville">Ville :</label>
+                            <label for="ville">Ville :</label>
                             <input type="text" name="ville" id="ville" value="<?php echo $_GET["ville"]; ?>"/>
                         </li>
                         <li>
@@ -154,7 +154,7 @@
                             <td><?php echo $data["cpostal"]; ?></td>
                             <td><?php echo $data["ville"]; ?></td>
                             <td><?php echo $data["pays"]; ?></td>
-                            <td><a href=detailsMembre.php?id=<?php echo $data["id_membre"]; ?>>Détails</a></td>
+                            <td><a href="detailsMembre.php?id=<?php echo $data["id_membre"]; ?>">Détails</a></td>
                         </tr>
                     <?php
                     }
@@ -169,23 +169,23 @@
                     $nb_membres =$queryCountMembers->fetch();
                     $queryCountMembers->closeCursor();
                     ?>
-                    <div id="liens">
-                        <?php
-                        if ($start > 0)
-                        {
-                            ?>
-                            <a href="membres.php?nom=<?php echo $_GET["nom"]; ?>&prenom=<?php echo $_GET["prenom"]; ?>&email=<?php echo $_GET["email"]; ?>&cpostal=<?php echo $_GET["cpostal"]; ?>&ville=<?php echo $_GET["ville"]; ?>&limit=<?php echo $_GET["limit"]; ?>&page=<?php echo $_GET["page"] - 1; ?>" id="precedent">Précédent</a>
-                            <?php
-                        }
-                        if (($_GET["page"] * $_GET["limit"]) < $nb_membres["nb_membres"])
-                        {
-                            ?>
-                            <a href="membres.php?nom=<?php echo $_GET["nom"]; ?>&prenom=<?php echo $_GET["prenom"]; ?>&email=<?php echo $_GET["email"]; ?>&cpostal=<?php echo $_GET["cpostal"]; ?>&ville=<?php echo $_GET["ville"]; ?>&limit=<?php echo $_GET["limit"]; ?>&page=<?php echo $_GET["page"] + 1; ?>" id="suivant">Suivant</a>
-                            <?php
-                        }
-                        ?>
-                    </div>
                 </table>
+                <div id="liens">
+                    <?php
+                    if ($start > 0)
+                    {
+                        ?>
+                        <a href="membres.php?nom=<?php echo $_GET["nom"]; ?>&amp;prenom=<?php echo $_GET["prenom"]; ?>&amp;email=<?php echo $_GET["email"]; ?>&amp;cpostal=<?php echo $_GET["cpostal"]; ?>&amp;ville=<?php echo $_GET["ville"]; ?>&amp;limit=<?php echo $_GET["limit"]; ?>&amp;page=<?php echo $_GET["page"] - 1; ?>" id="precedent">Précédent</a>
+                        <?php
+                    }
+                    if (($_GET["page"] * $_GET["limit"]) < $nb_membres["nb_membres"])
+                    {
+                        ?>
+                        <a href="membres.php?nom=<?php echo $_GET["nom"]; ?>&amp;prenom=<?php echo $_GET["prenom"]; ?>&amp;email=<?php echo $_GET["email"]; ?>&amp;cpostal=<?php echo $_GET["cpostal"]; ?>&amp;ville=<?php echo $_GET["ville"]; ?>&amp;limit=<?php echo $_GET["limit"]; ?>&amp;page=<?php echo $_GET["page"] + 1; ?>" id="suivant">Suivant</a>
+                        <?php
+                    }
+                    ?>
+                </div>
             </div>
         </div>
     </div>
