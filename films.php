@@ -135,59 +135,59 @@
 
                     if ($querySelectFilms->rowcount() == 0)
                     {
-                    ?>
+                        ?>
                         <tr>
                             <td colspan="5">Aucun film ne correspond à cette recherche !</td>
                         </tr>
-                    <?php
+                        <?php
                     }
 
                     while ($data = $querySelectFilms->fetch())
                     {
-                    ?>
+                        ?>
                         <tr>
                             <td><?php echo $data["titre"]; ?></td>
                             <?php
-                             if (!empty($data["genre"]))
+                            if (!empty($data["genre"]))
                             {
-                            ?>
+                                ?>
                                 <td><?php echo $data["genre"]; ?></td>
-                            <?php
+                                <?php
                             }
                             else
                             {
-                            ?>
+                                ?>
                                 <td>inconnu</td>
-                            <?php
+                                <?php
                             }
                             if (!empty($data["distrib"]))
                             {
-                            ?>
+                                ?>
                                 <td><?php  echo $data["distrib"]; ?></td>
-                            <?php
+                                <?php
                             }
                             else
                             {
-                            ?>
+                                ?>
                                 <td>inconnu</td>
-                            <?php
+                                <?php
                             }
                             if (!empty($data["annee_prod"]))
                             {
-                            ?>
+                                ?>
                                 <td><?php echo $data["annee_prod"] ;?></td>
-                            <?php
+                                <?php
                             }
                             else
                             {
-                            ?>
+                                ?>
                                 <td>inconnu</td>
-                            <?php
+                                <?php
                             }
                             ?>
                             <td><a href="detailsFilm.php?id=<?php echo $data["id_film"] ;?>">Détails</a></td>
                         </tr>
-                    <?php
+                        <?php
                     }
                     $querySelectFilms->closeCursor();
 
@@ -205,23 +205,51 @@
                     $nb_pages = ceil($nb_films["nb_films"] / $_GET["limit"]);
                     ?>
                 </table>
-                    <div id="liens">
-                        <p class="center">Page <?php echo $_GET["page"]; ?> /  <?php echo $nb_pages; ?></p>
-                        <?php
-                        if ($start > 0)
-                        {
-                            ?>
-                            <a href="films.php?titre=<?php echo $_GET["titre"]; ?>&amp;genre=<?php echo $_GET["genre"]; ?>&amp;distributeur=<?php echo $_GET["distributeur"]; ?>&amp;limit=<?php echo $_GET["limit"]; ?>&amp;page=<?php echo $_GET["page"] - 1; ?>" id="precedent">Précédent</a>
-                            <?php
-                        }
-                        if (($_GET["page"] * $_GET["limit"]) < $nb_films["nb_films"])
-                        {
-                            ?>
-                            <a href="films.php?titre=<?php echo $_GET["titre"]; ?>&amp;genre=<?php echo $_GET["genre"]; ?>&amp;distributeur=<?php echo $_GET["distributeur"]; ?>&amp;limit=<?php echo $_GET["limit"]; ?>&amp;page=<?php echo $_GET["page"] + 1; ?>" id="suivant">Suivant</a>
-                            <?php
-                        }
+                <div id="liens">
+                    <?php
+                    if ($nb_pages > 0)
+                    {
                         ?>
-                    </div>
+                        <form action="films.php" method="GET" class="center">
+                        <ul>
+                            <li>
+                            <label for="select_page">Page : </label>
+                                <select name="page" id="select_page">
+                                <?php
+                                for ($i=1; $i <= $nb_pages; $i++)
+                                {
+                                ?>
+                                <option value="<?php echo $i; ?>" <?php if ($i == $_GET["page"]) { echo "selected"; } ?>><?php echo "$i sur $nb_pages"; ?></option>
+                                <?php
+                                }
+                                ?>
+                                </select>
+                            </li>
+                            <li>
+                                <input type="hidden" name="titre" value="<?php echo $_GET["titre"]; ?>">
+                                <input type="hidden" name="genre" value="<?php echo $_GET["genre"]; ?>">
+                                <input type="hidden" name="distributeur" value="<?php echo $_GET["distributeur"]; ?>">
+                                <input type="hidden" name="limit" value="<?php echo $_GET["limit"]; ?>">
+                                <input type="submit" value="Aller" />
+                            </li>
+                        </ul>
+                        </form>
+                        <?php
+                    }
+                    if ($start > 0)
+                    {
+                        ?>
+                        <a href="films.php?titre=<?php echo $_GET["titre"]; ?>&amp;genre=<?php echo $_GET["genre"]; ?>&amp;distributeur=<?php echo $_GET["distributeur"]; ?>&amp;limit=<?php echo $_GET["limit"]; ?>&amp;page=<?php echo $_GET["page"] - 1; ?>" id="precedent">Précédent</a>
+                        <?php
+                    }
+                    if (($_GET["page"] * $_GET["limit"]) < $nb_films["nb_films"])
+                    {
+                        ?>
+                        <a href="films.php?titre=<?php echo $_GET["titre"]; ?>&amp;genre=<?php echo $_GET["genre"]; ?>&amp;distributeur=<?php echo $_GET["distributeur"]; ?>&amp;limit=<?php echo $_GET["limit"]; ?>&amp;page=<?php echo $_GET["page"] + 1; ?>" id="suivant">Suivant</a>
+                        <?php
+                    }
+                    ?>
+                </div>
             </div>
         </div>
     </div>

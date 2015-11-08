@@ -17,57 +17,57 @@
             <h2>Les séances programmées</h2>
 
             <form action="programmation.php" method="GET" class="center">
-            <ul>
-                <li>
-                    <label for="id_salle">Salle : </label>
-                    <select name="id_salle" id="id_salle">
-                        <option value="">Toute</option>
-
-                        <?php
-
-                        if (!isset($_GET["id_salle"]))
-                        {
-                            $_GET["id_salle"] = "";
-                        }
-                        if (!isset($_GET["page"]) || $_GET["page"] < 1)
-                        {
-                            $_GET["page"] = 1;
-                        }
-                        if (!isset($_GET["limit"]) || $_GET["limit"] < 1)
-                        {
-                            $_GET["limit"] = 10;
-                        }
-                        $start = ($_GET["page"] * $_GET["limit"]) - $_GET["limit"];
-
-                        $queryListSalles = $database->query("SELECT * FROM tp_salle");
-
-                        while ($data = $queryListSalles->fetch())
-                        {
-                            ?>
-                            <option value="<?php echo $data["id_salle"]; ?>" <?php if($_GET["id_salle"] == $data["id_salle"]) { echo "selected"; } ?>>#<?php echo $data["numero_salle"] . " - " . $data["nom_salle"]; ?></option>
+                <ul>
+                    <li>
+                        <label for="id_salle">Salle : </label>
+                        <select name="id_salle" id="id_salle">
+                            <option value="">Toute</option>
 
                             <?php
-                        }
-                        $queryListSalles->closeCursor();
-                        ?>
-                    </select>
-                </li>
-                <li>
-                    <label for="date">A partir du : </label>
-                    <input type="date" name="date" id="date" />
-                </li>
-                <li>
-                    <label for="heure">à</label>
-                    <input type="time" name="heure" id="heure" />
-                </li>
-                <li>
-                    <label for="limit">Films par page</label>
-                    <input type="number" name="limit" id="limit" value="<?php echo $_GET["limit"]; ?>" />
-                </li>
-                <li>
-                    <input type="submit" value="Voir" class="submit" />
-                </li>
-            </ul>
+
+                            if (!isset($_GET["id_salle"]))
+                            {
+                                $_GET["id_salle"] = "";
+                            }
+                            if (!isset($_GET["page"]) || $_GET["page"] < 1)
+                            {
+                                $_GET["page"] = 1;
+                            }
+                            if (!isset($_GET["limit"]) || $_GET["limit"] < 1)
+                            {
+                                $_GET["limit"] = 10;
+                            }
+                            $start = ($_GET["page"] * $_GET["limit"]) - $_GET["limit"];
+
+                            $queryListSalles = $database->query("SELECT * FROM tp_salle");
+
+                            while ($data = $queryListSalles->fetch())
+                            {
+                                ?>
+                                <option value="<?php echo $data["id_salle"]; ?>" <?php if($_GET["id_salle"] == $data["id_salle"]) { echo "selected"; } ?>>#<?php echo $data["numero_salle"] . " - " . $data["nom_salle"]; ?></option>
+
+                                <?php
+                            }
+                            $queryListSalles->closeCursor();
+                            ?>
+                        </select>
+                    </li>
+                    <li>
+                        <label for="date">A partir du : </label>
+                        <input type="date" name="date" id="date" />
+                    </li>
+                    <li>
+                        <label for="heure">à</label>
+                        <input type="time" name="heure" id="heure" />
+                    </li>
+                    <li>
+                        <label for="limit">Films par page</label>
+                        <input type="number" name="limit" id="limit" value="<?php echo $_GET["limit"]; ?>" />
+                    </li>
+                    <li>
+                        <input type="submit" value="Voir" class="submit" />
+                    </li>
+                </ul>
             </form>
 
             <table>
@@ -120,9 +120,9 @@
                 if (empty($data = $queryListProg->fetch()))
                 {
                     ?>
-                        <tr>
-                            <td colspan=6>Aucune programmation pour cette salle</td>
-                        </tr>
+                    <tr>
+                        <td colspan=6>Aucune programmation pour cette salle</td>
+                    </tr>
                     <?php
                 }
                 else
@@ -136,7 +136,7 @@
                     $date = substr($data["debut"], 0, 10);
                     $heure = substr($data["debut"], 10, 6);
                     $datecomplete = str_replace(" ", "%20", $data["debut"]);
-                ?>
+                    ?>
                     <tr>
                         <td><?php echo $data["titre"] ;?></td>
                         <td><?php echo $date ;?></td>
@@ -145,7 +145,7 @@
                         <td><?php echo $data["places"] ;?></td>
                         <td><a href="include/deprogFilm.php?id_salle=<?php echo $data["id_salle"]; ?>&amp;id_film=<?php echo $data["id_film"]; ?>&amp;debut=<?php echo $datecomplete; ?>">Déprogrammer</a></td>
                     </tr>
-                <?php
+                    <?php
                 }
                 $queryListProg->closeCursor();
 
@@ -163,20 +163,48 @@
                 $nb_pages = ceil($nb_films["nb_films"] / $_GET["limit"]);
                 ?>
             </table>
-                <div id="liens">
-                <p class="center">Page <?php echo $_GET["page"]; ?> /  <?php echo $nb_pages; ?></p>
+            <div id="liens">
                 <?php
+                if ($nb_pages > 0)
+                {
+                    ?>
+                    <form action="programmation.php" method="GET" class="center">
+                        <ul>
+                            <li>
+                                <label for="select_page">Page : </label>
+                                <select name="page" id="select_page">
+                                    <?php
+                                    for ($i=1; $i <= $nb_pages; $i++)
+                                    {
+                                        ?>
+                                        <option value="<?php echo $i; ?>" <?php if ($i == $_GET["page"]) { echo "selected"; } ?>><?php echo "$i sur $nb_pages"; ?></option>
+                                        <?php
+                                    }
+                                    ?>
+                                </select>
+                            </li>
+                            <li>
+                                <input type="hidden" name="id_salle" value="<?php echo $_GET["id_salle"]; ?>">
+                                <input type="hidden" name="date" value="<?php echo $_GET["date"]; ?>">
+                                <input type="hidden" name="heure" value="<?php echo $_GET["heure"]; ?>">
+                                <input type="hidden" name="limit" value="<?php echo $_GET["limit"]; ?>">
+                                <input type="submit" value="Aller" />
+                            </li>
+                        </ul>
+                    </form>
+                    <?php
+                }
                 if ($start > 0)
                 {
-                ?>
+                    ?>
                     <a href="programmation.php?id_salle=<?php echo $_GET["id_salle"]; ?>&amp;date=<?php echo $_GET["date"]; ?>&amp;heure=<?php echo $_GET["heure"]; ?>&amp;limit=<?php echo $_GET["limit"]; ?>&amp;page=<?php echo $_GET["page"] - 1;?>" id="precedent">Précédent</a>
-                <?php
+                    <?php
                 }
                 if (($_GET["page"] * $_GET["limit"]) < $nb_films["nb_films"])
                 {
-                ?>
+                    ?>
                     <a href="programmation.php?id_salle=<?php echo $_GET["id_salle"]; ?>&amp;date=<?php echo $_GET["date"]; ?>&amp;heure=<?php echo $_GET["heure"]; ?>&amp;limit=<?php echo $_GET["limit"]; ?>&amp;page=<?php echo $_GET["page"] + 1;?>" id="suivant">Suivant</a>
-                <?php
+                    <?php
                 }
                 ?>
             </div>
@@ -212,9 +240,9 @@
                                 ORDER BY titre");
                             while ($data = $querySelectFilms->fetch())
                             {
-                            ?>
+                                ?>
                                 <option value="<?php echo $data["id_film"]; ?>"><?php echo ucfirst($data["titre"]); ?></option>
-                            <?php
+                                <?php
                             }
                             $querySelectFilms->closeCursor();
                             ?>

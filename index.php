@@ -9,7 +9,7 @@
 <body>
     <div class="main_wrapper">
         <header>
-            <h1>Mange mon interface 2.0</h1>
+            <h1>Hólà amigo !</h1>
             <?php include "template/nav.html" ?>
         </header>
             <h2>Bienvenue  !</h2>

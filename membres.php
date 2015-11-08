@@ -136,16 +136,16 @@
 
                     if ($querySelectMembres->rowcount() == 0)
                     {
-                    ?>
+                        ?>
                         <tr>
                             <td colspan="7">Aucun membre ne correspond à cette recherche.</td>
                         </tr>
-                    <?php
+                        <?php
                     }
 
                     while ($data = $querySelectMembres->fetch())
                     {
-                    ?>
+                        ?>
                         <tr>
                             <td><?php echo $data["nom"]; ?></td>
                             <td><?php echo $data["prenom"]; ?></td>
@@ -155,7 +155,7 @@
                             <td><?php echo $data["pays"]; ?></td>
                             <td><a href="detailsMembre.php?id=<?php echo $data["id_membre"]; ?>">Détails</a></td>
                         </tr>
-                    <?php
+                        <?php
                     }
                     $querySelectMembres->closeCursor();
 
@@ -172,8 +172,38 @@
                     ?>
                 </table>
                 <div id="liens">
-                    <p class="center">Page <?php echo $_GET["page"]; ?> /  <?php echo $nb_pages; ?></p>
                     <?php
+                    if ($nb_pages > 0)
+                    {
+                        ?>
+                        <form action="membres.php" method="GET" class="center">
+                        <ul>
+                            <li>
+                            <label for="select_page">Page : </label>
+                                <select name="page" id="select_page">
+                                <?php
+                                for ($i=1; $i <= $nb_pages; $i++)
+                                {
+                                ?>
+                                <option value="<?php echo $i; ?>" <?php if ($i == $_GET["page"]) { echo "selected"; } ?>><?php echo "$i sur $nb_pages"; ?></option>
+                                <?php
+                                }
+                                ?>
+                                </select>
+                            </li>
+                            <li>
+                                <input type="hidden" name="nom" value="<?php echo $_GET["nom"]; ?>">
+                                <input type="hidden" name="prenom" value="<?php echo $_GET["prenom"]; ?>">
+                                <input type="hidden" name="email" value="<?php echo $_GET["email"]; ?>">
+                                <input type="hidden" name="cpostal" value="<?php echo $_GET["cpostal"]; ?>">
+                                <input type="hidden" name="ville" value="<?php echo $_GET["ville"]; ?>">
+                                <input type="hidden" name="limit" value="<?php echo $_GET["limit"]; ?>">
+                                <input type="submit" value="Aller" />
+                            </li>
+                        </ul>
+                        </form>
+                        <?php
+                    }
                     if ($start > 0)
                     {
                         ?>

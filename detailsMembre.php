@@ -55,15 +55,16 @@ if (empty($_GET["id"]))
                     <?php
                     while ($data = $queryDisplayHistory->fetch())
                     {
-                    ?>
+                        ?>
                         <tr>
                             <td><?php echo $data["titre"]; ?></td>
                             <td><?php echo $data["date"]; ?></td>
                             <td><?php echo $data["avis"]; ?><a href="include/modifierAvis.php?id=<?php echo $_GET["id"]; ?>&amp;id_film=<?php echo $data["id_film"]; ?>">Editer</a></td>
                             <td><a href="include/supprimerHistorique.php?id=<?php echo $_GET["id"]; ?>&amp;id_film=<?php echo $data["id_film"]; ?>">Supprimer</a></td>
                         </tr>
-                    <?php
+                        <?php
                     }
+                    $queryDisplayHistory->closeCursor();
 
                     $queryCountHistory = $database->prepare("SELECT COUNT(tpf.titre) AS nb_films
                         FROM tp_historique_membre AS tphm
@@ -74,7 +75,7 @@ if (empty($_GET["id"]))
                     $nb_films = $queryCountHistory->fetch();
                     $queryCountHistory->closeCursor();
 
-                    $queryDisplayHistory->closeCursor();
+                    $nb_pages = ceil($nb_films["nb_films"] / $_GET["limit"]);
                     ?>
 
                 </table>
@@ -90,17 +91,45 @@ if (empty($_GET["id"]))
 
                 <div id="liens">
                     <?php
+                    if ($nb_pages > 0)
+                    {
+                        ?>
+                        <form action="detailsMembre.php" method="GET" class="center">
+                            <ul>
+                                <li>
+                                    <label for="select_page">Page : </label>
+                                    <select name="page" id="select_page">
+                                        <?php
+                                        for ($i=1; $i <= $nb_pages; $i++)
+                                        {
+                                            ?>
+                                            <option value="<?php echo $i; ?>" <?php if ($i == $_GET["page"]) { echo "selected"; } ?>><?php echo "$i sur $nb_pages"; ?></option>
+                                            <?php
+                                        }
+                                        ?>
+                                    </select>
+                                </li>
+                                <li>
+                                    <input type="hidden" name="id" value="<?php echo $_GET["id"]; ?>">
+                                    <input type="hidden" name="limit" value="<?php echo $_GET["limit"]; ?>">
+                                    <input type="submit" value="Aller" />
+                                </li>
+                            </ul>
+                        </form>
+                        <?php
+                    }
+
                     if ($start > 0)
                     {
-                    ?>
+                        ?>
                         <a href="detailsMembre.php?id=<?php echo $_GET["id"]; ?>&amp;limit=<?php echo $_GET["limit"]; ?>&amp;page=<?php echo $_GET["page"] - 1; ?>" id="precedent">Précédent</a>
-                    <?php
+                        <?php
                     }
                     if (($_GET["page"] * $_GET["limit"]) < $nb_films["nb_films"])
                     {
-                    ?>
+                        ?>
                         <a href="detailsMembre.php?id=<?php echo $_GET["id"]; ?>&amp;limit=<?php echo $_GET["limit"]; ?>&amp;page=<?php echo $_GET["page"] + 1; ?>" id="suivant">Suivant</a>
-                    <?php
+                        <?php
                     }
                     $queryCountHistory->closeCursor();
                     ?>
@@ -119,9 +148,9 @@ if (empty($_GET["id"]))
                                     ORDER BY titre");
                                 while ($data = $querySelectFilms->fetch())
                                 {
-                                ?>
+                                    ?>
                                     <option value="<?php echo $data["id_film"]; ?>"><?php echo ucfirst($data["titre"]); ?></option>
-                                <?php
+                                    <?php
                                 }
                                 $querySelectFilms->closeCursor();
                                 ?>
