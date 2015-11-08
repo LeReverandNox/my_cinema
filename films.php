@@ -133,14 +133,13 @@
                         LIMIT " . abs($start) . ", " . abs($_GET["limit"]) ."");
                     $querySelectFilms->execute();
 
-                    if (empty($data = $querySelectFilms->fetch()))
+                    if ($querySelectFilms->rowcount() == 0)
                     {
-                        echo "<tr><td colspan=5>Aucun résultat !</td></tr>";
-                    }
-                    else
-                    {
-                        $querySelectFilms->closeCursor();
-                        $querySelectFilms->execute();
+                    ?>
+                        <tr>
+                            <td colspan="5">Aucun film ne correspond à cette recherche !</td>
+                        </tr>
+                    <?php
                     }
 
                     while ($data = $querySelectFilms->fetch())
@@ -202,9 +201,12 @@
                     $queryCountFilms->execute();
                     $nb_films =$queryCountFilms->fetch();
                     $queryCountFilms->closeCursor();
+
+                    $nb_pages = ceil($nb_films["nb_films"] / $_GET["limit"]);
                     ?>
                 </table>
                     <div id="liens">
+                        <p class="center">Page <?php echo $_GET["page"]; ?> /  <?php echo $nb_pages; ?></p>
                         <?php
                         if ($start > 0)
                         {

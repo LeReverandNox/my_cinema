@@ -147,6 +147,7 @@
                     </tr>
                 <?php
                 }
+                $queryListProg->closeCursor();
 
                 $queryCountProg = $database->prepare("SELECT  COUNT(tpf.titre) AS nb_films
                     FROM tp_grille_programme AS tpgp
@@ -159,10 +160,11 @@
                 $nb_films = $queryCountProg->fetch();
                 $queryCountProg->closeCursor();
 
-                $queryListProg->closeCursor();
+                $nb_pages = ceil($nb_films["nb_films"] / $_GET["limit"]);
                 ?>
             </table>
                 <div id="liens">
+                <p class="center">Page <?php echo $_GET["page"]; ?> /  <?php echo $nb_pages; ?></p>
                 <?php
                 if ($start > 0)
                 {

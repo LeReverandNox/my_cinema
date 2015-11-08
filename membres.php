@@ -134,14 +134,13 @@
                         LIMIT " . $start . ", " . $_GET["limit"] ."");
                     $querySelectMembres->execute();
 
-                    if (empty($data = $querySelectMembres->fetch()))
+                    if ($querySelectMembres->rowcount() == 0)
                     {
-                        echo "<tr><td colspan=7>Aucun résultat !</td></tr>";
-                    }
-                    else
-                    {
-                        $querySelectMembres->closeCursor();
-                        $querySelectMembres->execute();
+                    ?>
+                        <tr>
+                            <td colspan="7">Aucun membre ne correspond à cette recherche.</td>
+                        </tr>
+                    <?php
                     }
 
                     while ($data = $querySelectMembres->fetch())
@@ -168,9 +167,12 @@
                     $queryCountMembers->execute();
                     $nb_membres =$queryCountMembers->fetch();
                     $queryCountMembers->closeCursor();
+
+                    $nb_pages = ceil($nb_membres["nb_membres"] / $_GET["limit"]);
                     ?>
                 </table>
                 <div id="liens">
+                    <p class="center">Page <?php echo $_GET["page"]; ?> /  <?php echo $nb_pages; ?></p>
                     <?php
                     if ($start > 0)
                     {
