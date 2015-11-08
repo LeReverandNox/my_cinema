@@ -91,7 +91,7 @@ if (empty($_GET["id"]))
 
                 <div id="liens">
                     <?php
-                    if ($nb_pages > 0)
+                    if ($nb_pages > 1)
                     {
                         ?>
                         <form action="detailsMembre.php" method="GET" class="center">

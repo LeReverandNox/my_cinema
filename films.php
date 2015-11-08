@@ -207,7 +207,7 @@
                 </table>
                 <div id="liens">
                     <?php
-                    if ($nb_pages > 0)
+                    if ($nb_pages > 1)
                     {
                         ?>
                         <form action="films.php" method="GET" class="center">

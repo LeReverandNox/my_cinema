@@ -165,7 +165,7 @@
             </table>
             <div id="liens">
                 <?php
-                if ($nb_pages > 0)
+                if ($nb_pages > 1)
                 {
                     ?>
                     <form action="programmation.php" method="GET" class="center">
