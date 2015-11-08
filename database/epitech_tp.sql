@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Ven 06 Novembre 2015 à 12:26
+-- Généré le :  Dim 08 Novembre 2015 à 16:54
 -- Version du serveur :  5.6.25-0ubuntu0.15.04.1
--- Version de PHP :  5.6.4-4ubuntu6.3
+-- Version de PHP :  5.6.4-4ubuntu6.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -37,6 +37,11 @@ CREATE TABLE IF NOT EXISTS `tp_abonnement` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
+-- Vider la table avant d'insérer `tp_abonnement`
+--
+
+TRUNCATE TABLE `tp_abonnement`;
+--
 -- Contenu de la table `tp_abonnement`
 --
 
@@ -63,6 +68,11 @@ CREATE TABLE IF NOT EXISTS `tp_distrib` (
   `pays` varchar(255) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+--
+-- Vider la table avant d'insérer `tp_distrib`
+--
+
+TRUNCATE TABLE `tp_distrib`;
 --
 -- Contenu de la table `tp_distrib`
 --
@@ -179,6 +189,11 @@ CREATE TABLE IF NOT EXISTS `tp_fiche_personne` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
+-- Vider la table avant d'insérer `tp_fiche_personne`
+--
+
+TRUNCATE TABLE `tp_fiche_personne`;
+--
 -- Contenu de la table `tp_fiche_personne`
 --
 
@@ -276,7 +291,7 @@ INSERT INTO `tp_fiche_personne` (`id_perso`, `nom`, `prenom`, `date_naissance`, 
 (147, 'metzger', 'alban', '1987-05-07 00:00:00', 'metzger.alban@machin.com', ' ', '57260', 'VERGAVILLE', NULL),
 (10, 'schiff', 'arnaud', '1985-05-03 00:00:00', 'schiff.arnaud@machin.com', ' ', '01260', 'VIEU', NULL),
 (11, 'valet', 'jean-remi', '1959-08-24 00:00:00', 'valet.jean-remi@machin.com', ' ', '14190', 'MAIZIERES', NULL),
-(64, 'abdesslam', 'elodie', '1985-01-15 00:00:00', 'abdesslam.elodie@machin.com', ' ', '37385', 'NOUZILLY', 'PL'),
+(64, 'abdesslam', 'elodie', '1985-01-15 00:00:00', 'abdesslam.elodie@machin.com', '3 rue des bananes', '37385', 'NOUZILLY', 'FR'),
 (201, 'o-sullivan', 'krisna', '1947-01-20 00:00:00', 'o-sullivan.krisna@machin.com', ' ', '02340', 'MONTLOUE', NULL),
 (190, 'bettan', 'jean-christian', '1973-12-04 00:00:00', 'bettan.jean-christian@machin.com', ' ', '42660', 'MARLHES', NULL),
 (106, 'sean', 'yannick', '1961-07-17 00:00:00', 'sean.yannick@machin.com', ' ', '58150', 'ST QUENTIN SUR NOHAIN', NULL),
@@ -451,6 +466,11 @@ CREATE TABLE IF NOT EXISTS `tp_film` (
   `annee_prod` int(11) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+--
+-- Vider la table avant d'insérer `tp_film`
+--
+
+TRUNCATE TABLE `tp_film`;
 --
 -- Contenu de la table `tp_film`
 --
@@ -4170,6 +4190,11 @@ CREATE TABLE IF NOT EXISTS `tp_genre` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
+-- Vider la table avant d'insérer `tp_genre`
+--
+
+TRUNCATE TABLE `tp_genre`;
+--
 -- Contenu de la table `tp_genre`
 --
 
@@ -4222,14 +4247,21 @@ CREATE TABLE IF NOT EXISTS `tp_grille_programme` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
+-- Vider la table avant d'insérer `tp_grille_programme`
+--
+
+TRUNCATE TABLE `tp_grille_programme`;
+--
 -- Contenu de la table `tp_grille_programme`
 --
 
 INSERT INTO `tp_grille_programme` (`id_film`, `id_salle`, `id_fiche_perso_ouvreur`, `id_fiche_perso_technicien`, `id_fiche_perso_menage`, `debut_sceance`, `fin_sceance`) VALUES
-(1564, 3, 0, 0, 0, '2015-12-02 00:59:00', '0000-00-00 00:00:00'),
-(966, 6, 0, 0, 0, '2015-11-20 13:30:00', '0000-00-00 00:00:00'),
-(1564, 0, 0, 0, 0, '1990-11-01 03:59:00', '0000-00-00 00:00:00'),
-(158, 3, 0, 0, 0, '2015-11-20 20:59:00', '0000-00-00 00:00:00');
+(887, 4, 0, 0, 0, '2015-11-09 17:30:00', '0000-00-00 00:00:00'),
+(1041, 1, 0, 0, 0, '2015-11-09 15:00:00', '0000-00-00 00:00:00'),
+(1074, 0, 0, 0, 0, '2015-11-10 14:30:00', '0000-00-00 00:00:00'),
+(2581, 9, 0, 0, 0, '2015-11-09 10:00:00', '0000-00-00 00:00:00'),
+(862, 1, 0, 0, 0, '2015-11-09 12:00:00', '0000-00-00 00:00:00'),
+(721, 13, 0, 0, 0, '2015-11-09 21:15:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -4244,6 +4276,11 @@ CREATE TABLE IF NOT EXISTS `tp_historique_membre` (
   `avis` text NOT NULL COMMENT 'Avis sur le film vu'
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+--
+-- Vider la table avant d'insérer `tp_historique_membre`
+--
+
+TRUNCATE TABLE `tp_historique_membre`;
 --
 -- Contenu de la table `tp_historique_membre`
 --
@@ -7953,7 +7990,6 @@ INSERT INTO `tp_historique_membre` (`id_membre`, `id_film`, `date`, `avis`) VALU
 (93, 699, '2000-04-25 00:00:00', ''),
 (93, 362, '1999-01-09 00:00:00', ''),
 (94, 1657, '2003-03-28 00:00:00', ''),
-(94, 2653, '2005-10-18 00:00:00', ''),
 (94, 1888, '2003-11-29 00:00:00', ''),
 (94, 2437, '2005-05-13 00:00:00', ''),
 (94, 1694, '2003-06-03 00:00:00', ''),
@@ -7962,16 +7998,13 @@ INSERT INTO `tp_historique_membre` (`id_membre`, `id_film`, `date`, `avis`) VALU
 (94, 2450, '2005-05-21 00:00:00', ''),
 (94, 1715, '2003-05-26 00:00:00', ''),
 (94, 2532, '2005-08-04 00:00:00', ''),
-(94, 2597, '2005-09-15 00:00:00', ''),
-(94, 43, '0000-00-00 00:00:00', ''),
 (94, 1928, '2004-01-15 00:00:00', ''),
 (94, 2499, '2005-07-27 00:00:00', ''),
 (94, 2288, '2005-02-22 00:00:00', ''),
-(94, 3538, '0000-00-00 00:00:00', ''),
+(94, 1041, '2015-11-06 00:00:00', 'Da bezt movie evar !'),
 (94, 1776, '2003-07-26 00:00:00', ''),
 (94, 1916, '2003-12-07 00:00:00', ''),
 (94, 2321, '2005-03-08 00:00:00', ''),
-(94, 2654, '2005-10-18 00:00:00', ''),
 (95, 2245, '2004-12-03 00:00:00', ''),
 (95, 2090, '2004-07-14 00:00:00', ''),
 (95, 2339, '2005-02-18 00:00:00', ''),
@@ -8322,11 +8355,11 @@ INSERT INTO `tp_historique_membre` (`id_membre`, `id_film`, `date`, `avis`) VALU
 (104, 1152, '2001-11-19 00:00:00', ''),
 (104, 779, '2000-09-13 00:00:00', ''),
 (104, 1177, '2001-11-27 00:00:00', ''),
-(104, 1122, '2001-10-12 00:00:00', '');
-INSERT INTO `tp_historique_membre` (`id_membre`, `id_film`, `date`, `avis`) VALUES
+(104, 1122, '2001-10-12 00:00:00', ''),
 (104, 854, '2000-11-10 00:00:00', ''),
 (104, 877, '2000-11-30 00:00:00', ''),
-(104, 614, '2000-01-14 00:00:00', ''),
+(104, 614, '2000-01-14 00:00:00', '');
+INSERT INTO `tp_historique_membre` (`id_membre`, `id_film`, `date`, `avis`) VALUES
 (104, 553, '1999-12-01 00:00:00', ''),
 (104, 1082, '2001-08-26 00:00:00', ''),
 (104, 1223, '2002-01-22 00:00:00', ''),
@@ -9643,11 +9676,11 @@ INSERT INTO `tp_historique_membre` (`id_membre`, `id_film`, `date`, `avis`) VALU
 (131, 3090, '2006-11-02 00:00:00', ''),
 (131, 3274, '2007-03-18 00:00:00', ''),
 (131, 2970, '2006-07-29 00:00:00', ''),
-(131, 2953, '2006-06-03 00:00:00', '');
-INSERT INTO `tp_historique_membre` (`id_membre`, `id_film`, `date`, `avis`) VALUES
+(131, 2953, '2006-06-03 00:00:00', ''),
 (131, 2357, '2005-03-21 00:00:00', ''),
 (132, 3219, '2006-12-16 00:00:00', ''),
-(132, 3423, '2007-05-27 00:00:00', ''),
+(132, 3423, '2007-05-27 00:00:00', '');
+INSERT INTO `tp_historique_membre` (`id_membre`, `id_film`, `date`, `avis`) VALUES
 (132, 3317, '2007-04-14 00:00:00', ''),
 (132, 3498, '2007-08-22 00:00:00', ''),
 (132, 3539, '2007-08-31 00:00:00', ''),
@@ -10960,11 +10993,11 @@ INSERT INTO `tp_historique_membre` (`id_membre`, `id_film`, `date`, `avis`) VALU
 (164, 1962, '2004-01-27 00:00:00', ''),
 (164, 1795, '2003-08-17 00:00:00', ''),
 (164, 1208, '2002-01-05 00:00:00', ''),
-(164, 1440, '2002-09-05 00:00:00', '');
-INSERT INTO `tp_historique_membre` (`id_membre`, `id_film`, `date`, `avis`) VALUES
+(164, 1440, '2002-09-05 00:00:00', ''),
 (164, 2558, '2005-08-17 00:00:00', ''),
 (164, 2099, '2004-07-13 00:00:00', ''),
-(164, 2454, '2005-05-22 00:00:00', ''),
+(164, 2454, '2005-05-22 00:00:00', '');
+INSERT INTO `tp_historique_membre` (`id_membre`, `id_film`, `date`, `avis`) VALUES
 (164, 2361, '2005-03-19 00:00:00', ''),
 (164, 1500, '2002-10-17 00:00:00', ''),
 (164, 1534, '2002-11-22 00:00:00', ''),
@@ -12284,11 +12317,11 @@ INSERT INTO `tp_historique_membre` (`id_membre`, `id_film`, `date`, `avis`) VALU
 (202, 1850, '2003-10-19 00:00:00', ''),
 (202, 1782, '2003-08-22 00:00:00', ''),
 (202, 1134, '2001-11-14 00:00:00', ''),
-(202, 1233, '2002-02-22 00:00:00', '');
-INSERT INTO `tp_historique_membre` (`id_membre`, `id_film`, `date`, `avis`) VALUES
+(202, 1233, '2002-02-22 00:00:00', ''),
 (202, 1672, '2003-05-10 00:00:00', ''),
 (202, 818, '2000-10-05 00:00:00', ''),
-(202, 1798, '2003-09-10 00:00:00', ''),
+(202, 1798, '2003-09-10 00:00:00', '');
+INSERT INTO `tp_historique_membre` (`id_membre`, `id_film`, `date`, `avis`) VALUES
 (202, 1416, '2002-07-27 00:00:00', ''),
 (202, 910, '2001-01-24 00:00:00', ''),
 (202, 1598, '2003-02-23 00:00:00', ''),
@@ -13605,11 +13638,11 @@ INSERT INTO `tp_historique_membre` (`id_membre`, `id_film`, `date`, `avis`) VALU
 (233, 3084, '2006-10-01 00:00:00', ''),
 (233, 2604, '2005-10-29 00:00:00', ''),
 (233, 3257, '2007-03-08 00:00:00', ''),
-(233, 3449, '2007-07-22 00:00:00', '');
-INSERT INTO `tp_historique_membre` (`id_membre`, `id_film`, `date`, `avis`) VALUES
+(233, 3449, '2007-07-22 00:00:00', ''),
 (233, 2867, '2006-05-05 00:00:00', ''),
 (233, 2174, '2004-10-20 00:00:00', ''),
-(233, 2659, '2005-10-27 00:00:00', ''),
+(233, 2659, '2005-10-27 00:00:00', '');
+INSERT INTO `tp_historique_membre` (`id_membre`, `id_film`, `date`, `avis`) VALUES
 (233, 3383, '2007-05-02 00:00:00', ''),
 (233, 2839, '2006-03-16 00:00:00', ''),
 (233, 2828, '2006-03-29 00:00:00', ''),
@@ -14144,6 +14177,11 @@ CREATE TABLE IF NOT EXISTS `tp_job` (
   `cadre` tinyint(1) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+--
+-- Vider la table avant d'insérer `tp_job`
+--
+
+TRUNCATE TABLE `tp_job`;
 -- --------------------------------------------------------
 
 --
@@ -14160,6 +14198,11 @@ CREATE TABLE IF NOT EXISTS `tp_membre` (
   `date_inscription` datetime DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+--
+-- Vider la table avant d'insérer `tp_membre`
+--
+
+TRUNCATE TABLE `tp_membre`;
 --
 -- Contenu de la table `tp_membre`
 --
@@ -14258,7 +14301,7 @@ INSERT INTO `tp_membre` (`id_membre`, `id_fiche_perso`, `id_abo`, `date_abo`, `i
 (91, 147, 3, '2003-01-22 00:00:00', 2044, '2004-04-28 00:00:00', '2001-11-27 00:00:00'),
 (92, 10, 3, '2007-10-19 00:00:00', 0, NULL, '2007-09-27 00:00:00'),
 (93, 11, 4, '1999-12-09 00:00:00', 747, '2000-07-20 00:00:00', '1998-02-18 00:00:00'),
-(94, 64, 2, '2004-05-09 00:00:00', 2901, '2006-04-23 00:00:00', '2003-01-27 00:00:00'),
+(94, 64, 4, '2004-05-09 00:00:00', 2901, '2006-04-23 00:00:00', '2003-01-27 00:00:00'),
 (95, 201, 4, '2006-01-02 00:00:00', 3575, '2007-11-08 00:00:00', '2004-02-11 00:00:00'),
 (96, 190, 0, '2000-07-19 00:00:00', 786, '2000-09-04 00:00:00', '1998-08-06 00:00:00'),
 (97, 106, 0, '2004-07-16 00:00:00', 2850, '2006-04-15 00:00:00', '2003-05-14 00:00:00'),
@@ -14429,6 +14472,11 @@ CREATE TABLE IF NOT EXISTS `tp_personnel` (
   `date_recrutement` datetime NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+--
+-- Vider la table avant d'insérer `tp_personnel`
+--
+
+TRUNCATE TABLE `tp_personnel`;
 -- --------------------------------------------------------
 
 --
@@ -14443,6 +14491,11 @@ CREATE TABLE IF NOT EXISTS `tp_reduction` (
   `pourcentage_reduc` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+--
+-- Vider la table avant d'insérer `tp_reduction`
+--
+
+TRUNCATE TABLE `tp_reduction`;
 --
 -- Contenu de la table `tp_reduction`
 --
@@ -14471,6 +14524,11 @@ CREATE TABLE IF NOT EXISTS `tp_salle` (
   `nbr_siege` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+--
+-- Vider la table avant d'insérer `tp_salle`
+--
+
+TRUNCATE TABLE `tp_salle`;
 --
 -- Contenu de la table `tp_salle`
 --
